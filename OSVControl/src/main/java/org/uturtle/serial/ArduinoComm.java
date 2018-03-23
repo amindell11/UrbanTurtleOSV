@@ -44,7 +44,7 @@ public class ArduinoComm implements SerialPortDataListener {
 		for (int x = 0; x < ports.length; x++) {
 			System.out.println(ports[x].getDescriptivePortName() + " -- " + x);
 		}
-		SerialPort portId = ports[0];
+		SerialPort portId = SerialPort.getCommPort("/dev/ttyACM0");
 		// open serial port, and use class name for the appName.
 		if (portId.openPort()) {
 			serialPort = portId;

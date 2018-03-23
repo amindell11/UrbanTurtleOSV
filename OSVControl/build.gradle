@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 
-mainClassName = "org.uturtle.main.Main"
+mainClassName = "org.uturtle.test.TestSerialLink"
 
 
 // In this section you declare where to find the dependencies of your project
@@ -35,7 +35,7 @@ ssh.settings {
 }
 remotes {
   webServer {
-    host = '192.168.137.216'
+    host = 'raspberrypi.local'
     user = 'pi'
 	password = 'raspberry'
   }
@@ -44,16 +44,16 @@ task deploy {
   group = 'deploy'
   description = 'deploy code to raspberry pi'
   dependsOn jar;
+  print("deploying application "+mainClassName+" to "+remotes.webServer.host);
   doLast {
       ssh.run {
       session(remotes.webServer) {
         put from: jar.archivePath, into: '/home/pi'
-        //execute 'sudo java -jar OSVControl.jar'
+        //execute 'sudo java -jar OSVControl.jar'   	
       }
     }
   }
 }
-
 
 jar{
   from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
